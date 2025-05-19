@@ -1,0 +1,14 @@
+REST API - Representational State Transfer ApplicationnProg Interface
+
+COmmunication between client and server is done through HTTP request methods and then server processes the request 
+& returns the response to the client.
+
+GET - /getBooks - get all the resources
+GET - /getBooks/:id - get the book with id 1
+
+POST - /create - create new resource....request-body
+
+
+PUT - /update/:id - update a resource with id
+
+DELETE - /delete/:id - delete resource with id

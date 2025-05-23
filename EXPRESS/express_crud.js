@@ -16,7 +16,6 @@ app.use(express.json())
 //     next()
 // })
 
-
 //ROUTE-SPECIFIC MIDDLEWARES
 // function routeMiddleware(req, res, next){
 //     res.send('Login Middleware')

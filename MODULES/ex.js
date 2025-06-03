@@ -4,7 +4,7 @@ import express from "express"
 const app = express()
 const PORT = 8080
 
-app.get('/', (req, res)=>{
+app.get('/get', (req, res)=>{
     res.send('<h1>HOME PAGE</h1>')
 }) 
 app.get('/about', (req, res)=>{

@@ -1,58 +1,56 @@
-import React from 'react'
-import './App.css'
-import { useState } from 'react'
-import axios from 'axios'
+import React, { useState } from 'react';
+import axios from 'axios';
 
-const App = () => {
+function App() {
   const [file, setFile] = useState(null);
-  const [uploadedFilePath, setUploadedFilePath] = useState('')
+  const [uploadedFilePath, setUploadedFilePath] = useState('');
 
-  function handleChange(e) {
-    setFile(e.target.files[0])
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
   }
 
-  function handleSubmit(e) {
+  const handleUpload = async (e) => {
     e.preventDefault();
-
-    if(!file){
-      alert('Please select a file')
-      return ;
+    if (!file) {
+      alert('Please select a file first');
+      return;
     }
 
     const formData = new FormData();
-    formData.append('file', file)
+    formData.append('file', file);
 
-    axios.post('http://localhost:3001/upload', formData, 
-      {
-        Headers:{
-        'Content-Type':'multipart/form-data'
-      }
+    try {
+      const res = await axios.post('http://localhost:3001/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      setUploadedFilePath(res.data.file);
+
+    } catch (err) {
+      console.error(err);
+      alert('File upload failed');
     }
-    )
-      .then(() => alert('File Uploaded successfully'))
-      .catch(err => alert('File not Uploaded...'))
-
-      setUploadedFilePath()
   }
+  // console.log("Path:::", uploadedFilePath)
 
   return (
-    <div>
-      <h2>React + Node + Multer</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="file" name='file' onChange={handleChange} />
-        <button type='submit'>Upload</button>
+    <div style={{ padding: '20px' }}>
+      <h2>React + Express + Multer File Upload</h2>
+      <form onSubmit={handleUpload}>
+        <input type="file" onChange={handleFileChange} />
+        <button type="submit">Upload</button>
       </form>
 
-      <div>
-        {
-          uploadedFilePath && <div>
-            <p>Uploaded file is: </p>
-            <img src={`http:localhost:3001/${uploadedFilePath}`} alt="" />
-          </div>
-        }
-      </div>
+      {uploadedFilePath && (
+        <div>
+          <h3>Uploaded file:</h3>
+          <img src={`http://localhost:3001${uploadedFilePath}`} alt="Uploaded" width="300" />
+          <p>{uploadedFilePath}</p>
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
